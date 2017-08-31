@@ -1,0 +1,1 @@
+sh deplay_run_zhangzhuo.sh 'wget -r -nH --level=0 --cut-dirs=9 getprod@buildprod.scm.baidu.com:/temp/data/prod-64/baidu/feed-spd-fe/h5-jujia/CITASK/r7ad478dc5db2214783e2718fde7b6fe87717889d-5656741/  --user getprod --password getprod --preserve-permissions' jujia /home/work/odp/webroot/static/jujia/
