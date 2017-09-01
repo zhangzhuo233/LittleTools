@@ -12,25 +12,46 @@ function dir_exit()
 #wget && tar && cp
 function download_code()
 {
+    echo "=========================wget==========================="
     echo $CODE_WGET
-    #exit 1
     rm -rf output
     $CODE_WGET
     cd $BASE_DIR/output/
+    echo "=========================tar==========================="
     tar -zvxf *.tar.gz
-    cp -rf $BASE_DIR/output/webroot/static/$MODULENAME $PURPOPS_DIR 
+    echo "=========================cp==========================="
+    cp -rf $BASE_DIR/output/webroot/static/$MODULENAME/* $PURPOPS_DIR 
+}
+
+function local_config()
+{
+    cd $PURPOPS_DIR 
+    echo "=========================sed==========================="
+    grep -r "$before" $PURPOPS_DIR --color
+#    exit 1
+    sed -i "s#$before#$after#g"  `grep $before -rl ./` 
+    echo "=========================ensure your result==========================="
+    grep -r "$after" $PURPOPS_DIR --color
+    echo "===================================================================>"
 }
 
 function main()
 {
+    echo "===================================================================>"
+    echo "=========================ensure your para==========================="
     echo $CODE_WGET
     echo $MODULENAME
     echo $PURPOPS_DIR
+    echo $before
+    echo $after
+    echo "===================================================================>"
 
+    #exit 1
     set -x
     echo $CODE_WGET
     dir_exit
     download_code
+    local_config
 }
 
 BASE_DIR=$PWD
@@ -40,5 +61,9 @@ CODE_WGET=$1
 MODULENAME=$2
 #目的目录绝对路径
 PURPOPS_DIR=$3
+#线上地址
+before=$4
+#替换后的地址
+after=$5
 #调用main函数
 main
